@@ -5,7 +5,7 @@
         <div class="content-box">
           <el-row>
             <el-col :span="24">
-              <div class="finish-content">{{ item.content }}</div>
+              <div class="finish-content" @click="copyContent(item.content)">{{ item.content }}</div>
             </el-col>
           </el-row>
           <el-row>
@@ -24,6 +24,8 @@
 
 <script setup>
 import { defineProps } from 'vue'
+import { ClipboardSetText } from '../../wailsjs/runtime/runtime'
+import { ElMessage } from 'element-plus'
 
 const props = defineProps({
   historyList: {
@@ -31,6 +33,18 @@ const props = defineProps({
     default: []
   }
 })
+
+function copyContent(text) {
+  ClipboardSetText(text).then(res => {
+    if (res) {
+      ElMessage({
+        message: '已复制到剪贴板',
+        type: 'success',
+        plain: true,
+      })
+    }
+  })
+}
 
 function formatTimestamp(timestamp) {
   const date = new Date(timestamp)
@@ -76,7 +90,8 @@ function formatTimestamp(timestamp) {
 
 .finish-content {
   font-size: 12px;
-  white-space: nowarp;
+  width: calc(100% - 10px);
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   text-decoration: line-through;
@@ -85,5 +100,6 @@ function formatTimestamp(timestamp) {
 .finish-time {
   font-size: 12px;
   color: #909399;
+  user-select: none;
 }
 </style>

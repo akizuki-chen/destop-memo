@@ -20,7 +20,7 @@
       </el-col>
     </el-row>
     <div class="new-todo">
-      <el-input v-model="newTodo" @blur="handleBlur" @keyup.enter.native="handleBlur"></el-input>
+      <el-input v-model="newTodo" placeholder="点击输入" @blur="handleBlur" @keyup.enter.native="handleBlur"></el-input>
     </div>
     <ConfigVue ref="configRef" @changeShowFinish="changeShowFinish" @clearHistory="form.historyList = []" />
     <HistoryVue v-if="form.showFinish" :historyList="form.historyList" />
@@ -53,11 +53,13 @@ const form = reactive({
 
 function changeShowFinish(val) {
   form.showFinish = val
+  saveLocation()
   saveForm()
 }
 
 function changeLock(val) {
   form.lock = val
+  saveLocation()
   saveForm()
 }
 
@@ -102,19 +104,23 @@ onMounted(() => {
       form.lock = data.lock
       if (data.location) {
         form.location = data.location
-        updateLocation()
       }
       configRef.value.setData(form.showFinish)
       headerRef.value.setData(form.lock)
     }
-    updateHeight()
+    setTimeout(() => {
+      updateLocation()
+      updateHeight()
+    }, 10)
   })
 })
 
 onUpdated(() => {
-  updateHeight()
-  saveLocation()
-  saveForm()
+  setTimeout(() => {
+    updateHeight()
+    saveLocation()
+    saveForm()
+  }, 10)
 })
 
 function saveForm() {
@@ -144,27 +150,13 @@ function updateHeight() {
 <style>
 .body-box {
   background-color: #FFFFFF;
-  opacity: 0.7;
+  opacity: 0.6;
   transition: 0.5s;
 }
 
 .body-box:hover {
   opacity: 1;
   transition: 0.5s;
-}
-
-.el-input {
-  box-shadow: unset;
-  border-radius: 0px !important;
-  box-shadow: unset !important;
-}
-
-.is-focus {
-  box-shadow: unset !important;
-}
-
-.el-input__wrapper {
-  background-color: transparent !important;
 }
 
 .todo-content {
@@ -198,7 +190,7 @@ function updateHeight() {
 }
 
 .finish-btn:hover {
-  background-color: rgb(159.5, 206.5, 255);
+  background-color: #409EFF;
   color: white;
   cursor: pointer;
   transition: 0.2s;

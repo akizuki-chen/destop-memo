@@ -10,7 +10,7 @@ GO 1.24.1
 #### 使用说明
 
 基于wails
-跨平台构建以及运行方式参考 https://wails.io/
+构建以及运行方式参考 https://wails.io/
 数据保存在用户目录下memo.json中
 
 #### 界面截图

@@ -23,11 +23,11 @@ func main() {
 			Assets: assets,
 		},
 		Frameless:        true,
-		BackgroundColour: &options.RGBA{R: 255, G: 255, B: 255, A: 255},
+		BackgroundColour: &options.RGBA{R: 255, G: 255, B: 255, A: 128},
 		Windows: &windows.Options{
 			WebviewIsTransparent: true,
 			WindowIsTranslucent:  true,
-			BackdropType:         windows.Auto,
+			BackdropType:         windows.Acrylic,
 		},
 		OnStartup: app.startup,
 		Bind: []interface{}{
